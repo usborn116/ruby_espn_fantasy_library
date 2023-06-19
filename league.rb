@@ -7,11 +7,9 @@ class League
 
   attr_accessor :teams, :stat_data
 
-  def initialize
-    @uri = "https://fantasy.espn.com/apis/v3/games/fba/seasons/2023/segments/0/leagues/780758162?view=mTeam&view=mRoster&view=mMatchup&view=mSettings&view=mStandings"
-    @cookies = {'espn_s2': 'AEBZYDetmiWDzCsv91y%2B2bmAqE7WWTx2uT8JhJOE7pLZMjjQLcEt7DrPCRAqVyq0fiMyckLFBdJC1uID0R37CIaMmkghHDG62VAYnNAf7kVimrJfpf4KFUDm97dHy1NUa2TstxStusNhXVIbZbnVuuuKCRbdbQBDNyVRk9AW6Z0I%2FZIIwOFmStwPerqIiDejDTib94305LWGdRW7CLTcZwcmqtxGvOcq7hGOqYi26CdIPtzNSyEVfwlpdNg0dQuMyYzO%2Fw4w6h%2Fuh2OVah59Rw5DVajg%2FDvGZX9xNTiXTTdCow%3D%3D',
-        'SWID': '{817F7C41-C9C5-43F7-BF7C-41C9C5F3F7EB}'
-    }
+  def initialize(league_id, year, s2, sw)
+    @uri = "https://fantasy.espn.com/apis/v3/games/fba/seasons/#{year}/segments/0/leagues/#{league_id}?view=mTeam&view=mRoster&view=mMatchup&view=mSettings&view=mStandings"
+    @cookies = {'espn_s2': "#{s2}", 'SWID': "#{sw}"}
     @data = JSON.parse(RestClient.get(@uri, {:cookies => @cookies}))
     @teams = make_team_objects
     @stat_data = make_stat_data
@@ -19,6 +17,12 @@ class League
 
   def team_list
     @teams.map{|r| [r['name'], r['id']]}
+  end
+
+  def findplayer(team_name, str)
+    team = teams.select{|team| team.name == team_name}.first
+    return "No team named #{team_name}" unless team
+    team.roster.select{|p| p.name.downcase == str.downcase}.first || "#{str} cannot be found in #{team_name}'s roster"
   end
 
   private
