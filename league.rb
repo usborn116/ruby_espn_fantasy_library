@@ -1,10 +1,11 @@
 require 'rest-client'
 require 'json'
 require_relative 'constants'
+require_relative 'team'
 
 class League
 
-  attr_accessor :teams
+  attr_accessor :teams, :stat_data
 
   def initialize
     @uri = "https://fantasy.espn.com/apis/v3/games/fba/seasons/2023/segments/0/leagues/780758162?view=mTeam&view=mRoster&view=mMatchup&view=mSettings&view=mStandings"
@@ -13,6 +14,7 @@ class League
     }
     @data = JSON.parse(RestClient.get(@uri, {:cookies => @cookies}))
     @teams = make_team_objects
+    @stat_data = make_stat_data
   end
 
   def team_list
@@ -24,52 +26,31 @@ class League
   def make_team_objects
     @data['teams'].map{|team| Team.new(team)}
   end
-    
-end
 
-class Team
-  attr_accessor :roster, :name
-
-  def initialize(obj)
-    @name = obj['name']
-    @roster = roster_maker(obj)
-  end
-
-  private
-
-  def roster_maker(obj)
-    obj['roster']['entries'].map do |e| 
-      player = e['playerPoolEntry']['player']
-      avgstats = player['stats'].first['averageStats']
-      statcard = avgstats ? avgstats.transform_keys!{ |k| STATS_MAP[k] }.slice(*STATS) : EMPTY_STATS
-      statcard = add_calculated_stats(statcard)
-      { "#{player['fullName']} : #{POSITION_MAP[player['defaultPositionId']-1]}" => statcard }
+  def make_stat_data
+    stats = {}
+    teams.each do |team|
+      team.teamstats.each do |stat, value|
+        stats[stat] ? stats[stat] << value : stats[stat] = [value]
+      end
     end
+    calculate_league_stats(stats)
   end
 
-  def add_calculated_stats(s)
-    s['FGA'] = s['FGA'] + 0.0001
-    s['TO'] = s['TO'] + 0.00001
-    s['FTA'] = s['FTA'] + 0.00001
-
-    s['AFG%'] = (s['3PTM']*0.5+s['FGM'])/(s['FGA'])
-    s['A/TO'] = s['AST']/(s['TO'])
-    s['FT%'] = s['FTM']/(s['FTA'])
-    s
+  def calculate_league_stats(s)
+    calc = {}
+    s.each do |stat, values|
+      avg = (values.sum/values.length).to_f
+      calc["#{stat} Average"] = avg
+      calc["#{stat} Standard Deviation"] = std_dev(avg, values)
+    end
+    calc
   end
 
-end
-
-class Player
-
-  def initialize(player)
-    @name = player['fullName']
-    @stats = stat_card_maker
+  def std_dev(mean, values)
+    sum = values.inject(0){|accum, i| accum +(i-mean)**2 }
+    variance = sum/(values.length - 1).to_f
+    Math.sqrt(variance)
   end
-
-  private
-
-  def stat_card_maker
-  end
-
+    
 end

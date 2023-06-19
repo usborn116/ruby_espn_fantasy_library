@@ -4,7 +4,4 @@ https://rahman-saima.medium.com/integrating-external-api-ruby-on-rails-76a05ef8b
 Creating a Ruby library to more easily use the ESPN Fantasy API in Ruby or Rails apps!
 
 To Dos:
-- transfer player stat implementation to Player class
-- get total team stats for each category
-- get league average for each stat category
 - implement method to look up stat by player (in League class)
