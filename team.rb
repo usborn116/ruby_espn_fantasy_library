@@ -8,10 +8,11 @@ class Team
   include CalculateStats
   include PlayerFinder
 
-  attr_accessor :roster, :players, :name, :teamstats, :league
+  attr_accessor :roster, :players, :name, :teamstats, :league, :team_id
 
   def initialize(obj, league)
     @name = obj['name']
+    @team_id = obj['id']
     @players = roster_maker(obj)
     @roster = roster_names
     @teamstats = make_team_stats(@players)

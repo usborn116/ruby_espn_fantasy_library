@@ -19,7 +19,7 @@ class League
   end
 
   def team_list
-    @teams.map{|r| [r['name'], r['id']]}
+    @teams.map{|r| [r.name, r.team_id]}
   end
 
   def findplayer(team_name, str)

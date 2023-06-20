@@ -5,6 +5,7 @@ sw = '{817F7C41-C9C5-43F7-BF7C-41C9C5F3F7EB}'
 
 league = League.new(780758162, 2023, s2, sw)
 team = league.teams[5]
+print(league.team_list)
 teamstats = team.teamstats
 #print(teamstats)
 #print(team.roster[0])
