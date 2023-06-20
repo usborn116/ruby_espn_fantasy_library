@@ -5,13 +5,15 @@ sw = '{817F7C41-C9C5-43F7-BF7C-41C9C5F3F7EB}'
 
 league = League.new(780758162, 2023, s2, sw)
 team = league.teams[5]
-#teamstats = team.teamstats
+teamstats = team.teamstats
+#print(teamstats)
+#print(team.roster[0])
 #roster = team.roster
 #roster_names = league.teams[5]
 #player = roster[0]
 #data = league.stat_data
 
-#print(league.findplayer('SGA Holessss', 'lebron jamesss'))
-print(team.trade_players(['James Bouknight', 'Kris Dunn'], ['Anthony Davis', 'James Harden'], 'Cobra Kaiwww'))
+p(league.findplayer('SGA Holes', 'lebron jameslikj'))
+p(team.trade_players(['James Bouknight', 'Kris Dunn'], ['Anthony Davis', 'James Harden'], 'Cobra Kaiwww'))
 print(team.trade_players(['James Bouknight', 'Kris Dunn'], ['Anthony Davis', 'James Harden'], 'Cobra Kai'))
-print(team.trade_players(['James Bouknight', 'Kris Dunn'], ['Anthony Davis', 'James Hardenzp'], 'Cobra Kai'))
+p(team.trade_players(['James Bouknight', 'Kris Dunn'], ['Anthony Davis', 'James Hardenzp'], 'Cobra Kai'))

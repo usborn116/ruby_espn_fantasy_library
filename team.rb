@@ -1,28 +1,28 @@
-require 'rest-client'
-require 'json'
 require_relative 'constants'
 require_relative 'player'
+require './modules/calculate_stats'
+require './modules/player_finder'
 
 class Team
 
-  attr_accessor :roster, :name, :teamstats, :league
+  include CalculateStats
+  include PlayerFinder
+
+  attr_accessor :roster, :players, :name, :teamstats, :league
 
   def initialize(obj, league)
     @name = obj['name']
-    @roster = roster_maker(obj)
-    @teamstats = make_team_stats(@roster)
+    @players = roster_maker(obj)
+    @roster = roster_names
+    @teamstats = make_team_stats(@players)
     @league = league
-  end
-
-  def to_s
-    "Team Name: #{name} | Roster: #{roster_names}"
   end
 
   def trade_players(to_trade = [], to_receive = [], other_team_name)
     other_team = league.teams.select{|team| team.name == other_team_name}.first
     return "No team named #{other_team_name}" unless other_team
-    own_players = to_trade.map{|player| roster.select{|p| p.name.downcase == player.downcase}.first}
-    other_players = to_receive.map{|player| other_team.roster.select{|p| p.name.downcase == player.downcase}.first}
+    own_players = to_trade.map{|player| find_players(players, player)}
+    other_players = to_receive.map{|player| find_players(other_team.players, player)}
     return "This trade included players not one of the specified teams" if (own_players.include?(nil)|| other_players.include?(nil))
     print "Player Trading: #{own_players.map{|p| p.name}.join(', ')}\n\n"
     print "Player Getting: #{other_players.map{|p| p.name}.join(', ')}\n\n"
@@ -31,50 +31,36 @@ class Team
 
   private
 
-  def stat_differences(old, new)
-    new.map do |stat, val|
-      [stat, val - old[stat]]
-    end.to_h
-  end
-
-  def new_team_stats(own, others)
-    new_ros = roster.dup
-    others.each{|other| new_ros << other}
-    own.each do |own|
-      i = new_ros.index(own)
-      new_ros.delete_at(i)
-    end
-    newstats = make_team_stats(new_ros)
-    "Stats before trade: #{teamstats}\n\nStats after trade: #{newstats}\n\nDifference: #{stat_differences(teamstats, newstats)}"
-  end
-
-  def roster_maker(obj)
-    obj['roster']['entries'].map do |e| 
-      player = e['playerPoolEntry']['player']
-      Player.new(player, self)
-    end
+  def to_s
+    "Team Name: #{name} | Roster: #{roster_names}"
   end
 
   def roster_names
-    roster.map{|player| player.name}
+    players.map(&:name)
+  end
+
+  def stat_differences(old, new)
+    new.map {|stat, val| [stat, val - old[stat]]}.to_h
+  end
+
+  def new_team_stats(own, others)
+    new_ros = players.dup
+    others.each{|other| new_ros << other}
+    own.each {|p| new_ros.delete_at(new_ros.index(p))}
+    newstats = make_team_stats(new_ros)
+    "Stats before: #{teamstats}\n\nStats after: #{newstats}\n\nChanges: #{stat_differences(teamstats, newstats)}"
+  end
+
+  def roster_maker(obj)
+    obj['roster']['entries'].map {|e| Player.new(e['playerPoolEntry']['player'], self)}
   end
 
   def make_team_stats(ros)
     stats = {}
     ros.each do |player|
-      player&.stats.each do |stat, value|
-        stats[stat] ? stats[stat] += value : stats[stat] = value
-      end
+      player.stats.each {|stat, value| stats[stat] ? stats[stat] += value : stats[stat] = value}
     end
-    calculate_team_stats(stats)
-    stats
-  end
-
-  def calculate_team_stats(s)
-    s['AFG%'] = (s['3PTM']*0.5+s['FGM'])/(s['FGA'])
-    s['A/TO'] = s['AST']/(s['TO'])
-    s['FT%'] = s['FTM']/(s['FTA'])
-    s
+    add_calculated_stats(stats)
   end
 
 end

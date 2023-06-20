@@ -2,15 +2,18 @@ require 'rest-client'
 require 'json'
 require_relative 'constants'
 require_relative 'team'
+require './modules/player_finder'
 
 class League
+
+  include PlayerFinder
 
   attr_accessor :teams, :stat_data
 
   def initialize(league_id, year, s2, sw)
     @uri = "https://fantasy.espn.com/apis/v3/games/fba/seasons/#{year}/segments/0/leagues/#{league_id}?view=mTeam&view=mRoster&view=mMatchup&view=mSettings&view=mStandings"
     @cookies = {'espn_s2': "#{s2}", 'SWID': "#{sw}"}
-    @data = JSON.parse(RestClient.get(@uri, {:cookies => @cookies}))
+    @data = JSON.parse(RestClient.get(@uri, {cookies: @cookies}))
     @teams = make_team_objects
     @stat_data = make_stat_data
   end
@@ -20,9 +23,10 @@ class League
   end
 
   def findplayer(team_name, str)
-    team = teams.select{|team| team.name == team_name}.first
+    team = teams.select{|t| t.name == team_name}.first
     return "No team named #{team_name}" unless team
-    team.roster.select{|p| p.name.downcase == str.downcase}.first || "#{str} cannot be found in #{team_name}'s roster"
+
+    find_players(team.players, str) || "#{str} cannot be found in #{team_name}'s roster"
   end
 
   private
@@ -56,5 +60,5 @@ class League
     variance = sum/(values.length - 1).to_f
     Math.sqrt(variance)
   end
-    
+
 end

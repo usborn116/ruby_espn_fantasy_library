@@ -4,6 +4,5 @@ https://rahman-saima.medium.com/integrating-external-api-ruby-on-rails-76a05ef8b
 Creating a Ruby library to more easily use the ESPN Fantasy API in Ruby or Rails apps!
 
 To Dos:
-- modularize logic to calculate stat board for league and team
 - write tests for each class functions
 - make this into a gem!
