@@ -21,8 +21,11 @@ class Team
   def trade_players(to_trade = [], to_receive = [], other_team_name)
     other_team = league.teams.select{|team| team.name == other_team_name}.first
     return "No team named #{other_team_name}" unless other_team
-    own_players = to_trade.map{|player| roster.select{|p| p.name.downcase == player.downcase}.first || "#{player} cannot be found in your roster"}
-    other_players = to_receive.map{|player| other_team.roster.select{|p| p.name.downcase == player.downcase}.first || "#{player} cannot be found in other team's roster"}
+    own_players = to_trade.map{|player| roster.select{|p| p.name.downcase == player.downcase}.first}
+    other_players = to_receive.map{|player| other_team.roster.select{|p| p.name.downcase == player.downcase}.first}
+    return "This trade included players not one of the specified teams" if (own_players.include?(nil)|| other_players.include?(nil))
+    print "Player Trading: #{own_players.map{|p| p.name}.join(', ')}\n\n"
+    print "Player Getting: #{other_players.map{|p| p.name}.join(', ')}\n\n"
     new_team_stats(own_players, other_players)
   end
 
@@ -59,7 +62,7 @@ class Team
   def make_team_stats(ros)
     stats = {}
     ros.each do |player|
-      player.stats.each do |stat, value|
+      player&.stats.each do |stat, value|
         stats[stat] ? stats[stat] += value : stats[stat] = value
       end
     end

@@ -12,4 +12,6 @@ team = league.teams[5]
 #data = league.stat_data
 
 #print(league.findplayer('SGA Holessss', 'lebron jamesss'))
-print(team.trade_players(['LeBron James'], ['Anthony Davis'], 'Cobra Kai'))
+print(team.trade_players(['James Bouknight', 'Kris Dunn'], ['Anthony Davis', 'James Harden'], 'Cobra Kaiwww'))
+print(team.trade_players(['James Bouknight', 'Kris Dunn'], ['Anthony Davis', 'James Harden'], 'Cobra Kai'))
+print(team.trade_players(['James Bouknight', 'Kris Dunn'], ['Anthony Davis', 'James Hardenzp'], 'Cobra Kai'))
