@@ -6,10 +6,11 @@ class Player
 
   attr_reader :name, :position, :stats
 
-  def initialize(player)
+  def initialize(player, team)
     @name = player['fullName']
     @position = POSITION_MAP[player['defaultPositionId']-1]
     @stats = stat_card_maker(player)
+    @team = team
   end
 
   def to_s 

@@ -28,7 +28,7 @@ class League
   private
 
   def make_team_objects
-    @data['teams'].map{|team| Team.new(team)}
+    @data['teams'].map{|team| Team.new(team, self)}
   end
 
   def make_stat_data
