@@ -19,7 +19,8 @@ describe League do
     end
 
     it "has league stats" do
-      expect(@league.stat_data).to be_a Object
+      expect(@league.stat_data.keys().first).to eql("PTS Average")
+      expect(@league.stat_data.keys().last).to eql("FT% Standard Deviation")
     end
   end
 
@@ -38,16 +39,17 @@ describe League do
   end
 
   describe "#find_player" do
-    it "creates a league" do
-      expect(@league).to be_a League
+    it "returns error if team does not exist" do
+      expect(@league.findplayer('SGA holz', 'Kris Dunn')).to eql('No team named SGA holz')
     end
-    it "has teams" do
-      expect(@league.teams).to be_a Array
+    it "returns error if player is not in roster" do
+      expect(@league.findplayer('SGA Holes', 'Kris Dunnz')).to eql("Kris Dunnz cannot be found in SGA Holes's roster")
     end
 
-    it "has league stats" do
-      expect(@league.stat_data).to be_a Object
+    it "returns a player" do
+      expect(@league.findplayer('SGA Holes', 'Kris Dunn')).to be_a Player
     end
   end
 
+  
 end

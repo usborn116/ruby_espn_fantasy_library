@@ -5,10 +5,11 @@ class Player
 
   include CalculateStats
 
-  attr_reader :name, :position, :stats
+  attr_reader :name, :player_id, :position, :stats, :team
 
   def initialize(player, team)
     @name = player['fullName']
+    @player_id = player['id']
     @position = POSITION_MAP[player['defaultPositionId']-1]
     @stats = stat_card_maker(player)
     @team = team
