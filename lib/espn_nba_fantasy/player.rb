@@ -1,5 +1,5 @@
 require_relative 'constants'
-require './modules/calculate_stats'
+require_relative 'calculate_stats'
 
 class Player
 

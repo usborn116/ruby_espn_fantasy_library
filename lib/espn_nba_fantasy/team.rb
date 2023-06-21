@@ -1,7 +1,7 @@
 require_relative 'constants'
 require_relative 'player'
-require './modules/calculate_stats'
-require './modules/player_finder'
+require_relative 'calculate_stats'
+require_relative 'player_finder'
 
 class Team
 

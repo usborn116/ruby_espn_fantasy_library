@@ -2,7 +2,7 @@ require 'rest-client'
 require 'json'
 require_relative 'constants'
 require_relative 'team'
-require './modules/player_finder'
+require_relative 'player_finder'
 
 class League
 
