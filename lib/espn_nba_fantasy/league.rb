@@ -10,6 +10,8 @@ class League
 
   attr_accessor :teams, :stat_data
 
+  #initializes the league
+
   def initialize(league_id, year, s2, sw)
     @uri = "https://fantasy.espn.com/apis/v3/games/fba/seasons/#{year}/segments/0/leagues/#{league_id}?view=mTeam&view=mRoster&view=mMatchup&view=mSettings&view=mStandings"
     @cookies = {'espn_s2': "#{s2}", 'SWID': "#{sw}"}
@@ -18,9 +20,13 @@ class League
     @stat_data = make_stat_data
   end
 
+  #gives you an array of each team's name and id in the league
+
   def team_list
     @teams.map{|r| [r.name, r.team_id]}
   end
+
+  #pull up a Player object based on their name and their team
 
   def findplayer(team_name, str)
     team = teams.select{|t| t.name == team_name}.first

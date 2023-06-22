@@ -10,6 +10,8 @@ class Team
 
   attr_accessor :roster, :players, :name, :teamstats, :league, :team_id
 
+  #basic initialization with the various attributes
+
   def initialize(obj, league)
     @name = obj['name']
     @team_id = obj['id']
@@ -18,6 +20,12 @@ class Team
     @teamstats = make_team_stats(@players)
     @league = league
   end
+
+  #method that lets you input who you're trading (Array of names), who you're receiving (Array of names),
+  #and what team you're trading with (String). 
+
+  #returns data including the players trading away and receiving, your stats before and after the trade, and your 
+  #change in stats for each category
 
   def trade_players(to_trade = [], to_receive = [], other_team_name)
     other_team = league.teams.select{|team| team.name == other_team_name}.first

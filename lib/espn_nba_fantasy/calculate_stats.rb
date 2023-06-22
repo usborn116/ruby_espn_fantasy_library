@@ -1,3 +1,5 @@
+#this is a module used to calculate the AFG%, A/TO, and FT% stats based on existing raw stats
+
 module CalculateStats
 
   def add_calculated_stats(stats)

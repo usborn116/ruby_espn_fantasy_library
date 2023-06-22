@@ -1,3 +1,6 @@
+#these are some of the constants necessary to map ids from the ESPN Fantasy Library to, 
+#so that things like position, stat name, etc are readable!
+
 POSITION_MAP = ['PG', 'SG', 'SF', 'PF', 'C', 'G', 'F', 'SG/SF', 'G/F', 'PF/C', 'F/C', 'UT', 'BE', 'IR', '', 'Rookie']
 
 PRO_TEAM_MAP = ['FA', 'ATL','BOS','NOP','CHI','CLE','DAL','DEN','DET','GSW','HOU','IND',

@@ -7,6 +7,8 @@ class Player
 
   attr_reader :name, :player_id, :position, :stats, :team
 
+  #basic initialization with attributes
+
   def initialize(player, team)
     @name = player['fullName']
     @player_id = player['id']
