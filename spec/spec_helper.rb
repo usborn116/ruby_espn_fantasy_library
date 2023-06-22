@@ -13,6 +13,14 @@
 # it.
 #
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+
+require 'bundler/setup'
+Bundler.setup
+
+require 'espn_nba_fantasy'
+require 'rest-client'
+require 'json'
+
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
