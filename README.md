@@ -5,10 +5,15 @@ The gem is live! Info can be found here: https://rubygems.org/gems/espn_nba_fant
 Links that helped me in this project:
 
 Converting HTTP to JSON: https://stackoverflow.com/questions/31362732/convert-http-response-to-json-in-ruby
+
 Using rest-client: https://rahman-saima.medium.com/integrating-external-api-ruby-on-rails-76a05ef8b0e8
+
 Making a gem: https://guides.rubygems.org/make-your-own-gem/
+
 Gemspec file specification options: https://guides.rubygems.org/specification-reference/#homepage
+
 Documenting with YARD: https://rubydoc.info/gems/yard/file/docs/GettingStarted.md
+
 Setting up testing in a gem: https://stackoverflow.com/questions/4398262/set-up-rspec-to-test-a-gem-not-rails
 
 
