@@ -4,18 +4,16 @@ require_relative '../lib/espn_nba_fantasy.rb'
 s2 = 'AEBZYDetmiWDzCsv91y%2B2bmAqE7WWTx2uT8JhJOE7pLZMjjQLcEt7DrPCRAqVyq0fiMyckLFBdJC1uID0R37CIaMmkghHDG62VAYnNAf7kVimrJfpf4KFUDm97dHy1NUa2TstxStusNhXVIbZbnVuuuKCRbdbQBDNyVRk9AW6Z0I%2FZIIwOFmStwPerqIiDejDTib94305LWGdRW7CLTcZwcmqtxGvOcq7hGOqYi26CdIPtzNSyEVfwlpdNg0dQuMyYzO%2Fw4w6h%2Fuh2OVah59Rw5DVajg%2FDvGZX9xNTiXTTdCow%3D%3D'
 sw = '{817F7C41-C9C5-43F7-BF7C-41C9C5F3F7EB}'
 
-describe Team do
+describe ESPNNBAFantasy::Team do
 
   before do
-    @league = League.new(780758162, 2023, s2, sw)
+    @league = ESPNNBAFantasy::League.new(780758162, 2023, s2, sw)
     @team = @league.teams[5]
   end
 
   describe "#initialize" do
 
     it "has a name" do
-      puts 'TEAM'
-      puts @team
       expect(@team.name).to eql("SGA Holes")
     end
 
@@ -25,7 +23,7 @@ describe Team do
 
     it "has players" do
       expect(@team.players).to be_a Array
-      expect(@team.players.first).to be_a Player
+      expect(@team.players.first).to be_a ESPNNBAFantasy::Player
     end
 
     it "has a roster name" do

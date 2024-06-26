@@ -4,15 +4,15 @@ require_relative '../lib/espn_nba_fantasy.rb'
 s2 = 'AEBZYDetmiWDzCsv91y%2B2bmAqE7WWTx2uT8JhJOE7pLZMjjQLcEt7DrPCRAqVyq0fiMyckLFBdJC1uID0R37CIaMmkghHDG62VAYnNAf7kVimrJfpf4KFUDm97dHy1NUa2TstxStusNhXVIbZbnVuuuKCRbdbQBDNyVRk9AW6Z0I%2FZIIwOFmStwPerqIiDejDTib94305LWGdRW7CLTcZwcmqtxGvOcq7hGOqYi26CdIPtzNSyEVfwlpdNg0dQuMyYzO%2Fw4w6h%2Fuh2OVah59Rw5DVajg%2FDvGZX9xNTiXTTdCow%3D%3D'
 sw = '{817F7C41-C9C5-43F7-BF7C-41C9C5F3F7EB}'
 
-describe League do
+describe ESPNNBAFantasy::League do
 
   before do
-    @league = League.new(780758162, 2023, s2, sw)
+    @league = ESPNNBAFantasy::League.new(780758162, 2023, s2, sw)
   end
 
   describe "#initialize" do
     it "creates a league" do
-      expect(@league).to be_a League
+      expect(@league).to be_a ESPNNBAFantasy::League
       expect(@league.to_s).to eq('League 780758162')
     end
 
@@ -49,7 +49,7 @@ describe League do
     end
 
     it "returns a player" do
-      expect(@league.findplayer('SGA Holes', 'Kris Dunn')).to be_a Player
+      expect(@league.findplayer('SGA Holes', 'Kris Dunn')).to be_a ESPNNBAFantasy::Player
     end
   end
 
