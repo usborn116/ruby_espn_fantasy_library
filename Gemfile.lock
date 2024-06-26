@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/usborn116/ruby_espn_fantasy_library
+  revision: 87b90dc2b3d017c260f7779b90c6693e5e6b0027
+  specs:
+    espn_nba_fantasy (0.0.3)
+      json
+      rest-client
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -39,9 +47,10 @@ PLATFORMS
   arm64-darwin-22
 
 DEPENDENCIES
-  json
-  rest-client
-  rspec
+  espn_nba_fantasy!
+  json (~> 2.6.3)
+  rest-client (~> 2.1.0)
+  rspec (~> 3.12.0)
 
 BUNDLED WITH
    2.3.20

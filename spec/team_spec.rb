@@ -14,6 +14,8 @@ describe Team do
   describe "#initialize" do
 
     it "has a name" do
+      puts 'TEAM'
+      puts @team
       expect(@team.name).to eql("SGA Holes")
     end
 

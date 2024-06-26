@@ -13,11 +13,17 @@ class League
   #initializes the league
 
   def initialize(league_id, year, s2, sw)
-    @uri = "https://fantasy.espn.com/apis/v3/games/fba/seasons/#{year}/segments/0/leagues/#{league_id}?view=mTeam&view=mRoster&view=mMatchup&view=mSettings&view=mStandings"
+    @league_id = league_id
+
+    @uri = "https://lm-api-reads.fantasy.espn.com/apis/v3/games/fba/seasons/#{year}/segments/0/leagues/#{league_id}?view=mRoster&view=mSettings&view=mTeam&view=modular&view=mNav"
     @cookies = {'espn_s2': "#{s2}", 'SWID': "#{sw}"}
     @data = JSON.parse(RestClient.get(@uri, {cookies: @cookies}))
     @teams = make_team_objects
     @stat_data = make_stat_data
+  end
+
+  def to_s
+    "League #{@league_id}"
   end
 
   #gives you an array of each team's name and id in the league

@@ -15,6 +15,8 @@ describe Player do
   describe "#initialize" do
 
     it "has a name" do
+      puts "PLAYER"
+      puts @player
       expect(@player.name).to eql("Shai Gilgeous-Alexander")
     end
 

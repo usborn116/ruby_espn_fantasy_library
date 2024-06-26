@@ -27,6 +27,10 @@ class Team
   #returns data including the players trading away and receiving, your stats before and after the trade, and your 
   #change in stats for each category
 
+  def to_s
+    "Team Name: #{name} | Roster: #{roster_names}"
+  end
+
   def trade_players(to_trade = [], to_receive = [], other_team_name)
     other_team = league.teams.select{|team| team.name == other_team_name}.first
     return "No team named #{other_team_name}" unless other_team
@@ -39,10 +43,6 @@ class Team
   end
 
   private
-
-  def to_s
-    "Team Name: #{name} | Roster: #{roster_names}"
-  end
 
   def roster_names
     players.map(&:name)

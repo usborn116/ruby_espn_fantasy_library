@@ -13,7 +13,9 @@ describe League do
   describe "#initialize" do
     it "creates a league" do
       expect(@league).to be_a League
+      expect(@league.to_s).to eq('League 780758162')
     end
+
     it "has teams" do
       expect(@league.teams).to be_a Array
     end

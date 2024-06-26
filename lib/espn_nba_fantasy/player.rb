@@ -17,11 +17,11 @@ class Player
     @team = team
   end
 
-  private
-
   def to_s 
     "Player: #{name} | Position: #{position} | Stats: #{stats}"
   end
+
+  private
 
   def stat_card_maker(player)
     avgstats = player['stats'].first['averageStats']
