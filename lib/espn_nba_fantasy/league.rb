@@ -3,13 +3,14 @@ require 'json'
 require_relative 'constants'
 require_relative 'team'
 require_relative 'player_finder'
+require_relative 'user'
 
 module ESPNNBAFantasy
   class League
 
     include PlayerFinder
 
-    attr_accessor :teams, :stat_data, :league_id, :name, :current_start_year, :current_end_year
+    attr_accessor :teams, :stat_data, :league_id, :name, :current_start_year, :current_end_year, :users
 
     #initializes the league
 
@@ -18,6 +19,7 @@ module ESPNNBAFantasy
       @cookies = {'espn_s2': "#{s2}", 'SWID': "#{sw}"}
       @data = JSON.parse(RestClient.get(@uri, {cookies: @cookies}))
       @teams = make_team_objects
+      @users = make_user_objects
       @stat_data = make_stat_data
       @league_id = @data['id']
       @name = @data['name']
@@ -48,6 +50,10 @@ module ESPNNBAFantasy
 
     def make_team_objects
       @data['teams'].map{|team| ESPNNBAFantasy::Team.new(team, self)}
+    end
+
+    def make_user_objects
+      @data['members'].map{|user| ESPNNBAFantasy::User.new(user, self)}
     end
 
     def make_stat_data
