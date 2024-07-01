@@ -22,7 +22,7 @@ module ESPNNBAFantasy
       @users = make_user_objects
       @stat_data = make_stat_data
       @league_id = @data['id']
-      @name = @data['name']
+      @name = @data['settings']['name']
       @current_start_year = @data['seasonId']
       @current_end_year = @current_start_year + 1
     end

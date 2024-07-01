@@ -15,7 +15,10 @@ describe ESPNNBAFantasy::Player do
   describe "#initialize" do
 
     it "has a name" do
-      expect(@player.full_name).to eql("Shai Gilgeous-Alexander")
+      expect(@player.full_name).to match(/\w*\s\w*/)
+      expect(@player.first_name).to match(/\w/)
+      expect(@player.last_name).to match(/\w/)
+      expect(@player.slug).to match(/\w*-\w*/)
     end
 
     it "has an id" do

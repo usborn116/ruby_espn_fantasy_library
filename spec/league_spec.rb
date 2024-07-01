@@ -12,12 +12,21 @@ describe ESPNNBAFantasy::League do
 
   describe "#initialize" do
     it "creates a league" do
+
       expect(@league).to be_a ESPNNBAFantasy::League
       expect(@league.to_s).to eq('League 780758162')
+      expect(@league.name).to be_a String
+      expect(@league.league_id).to be_a Integer
+      expect(@league.current_start_year).to be_a Integer
+      expect(@league.current_end_year).to be_a Integer
     end
 
     it "has teams" do
       expect(@league.teams).to be_a Array
+    end
+
+    it "has users" do
+      expect(@league.users).to be_a Array
     end
 
     it "has league stats" do
