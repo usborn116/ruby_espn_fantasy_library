@@ -15,7 +15,7 @@ describe ESPNNBAFantasy::Player do
   describe "#initialize" do
 
     it "has a name" do
-      expect(@player.name).to eql("Shai Gilgeous-Alexander")
+      expect(@player.full_name).to eql("Shai Gilgeous-Alexander")
     end
 
     it "has an id" do

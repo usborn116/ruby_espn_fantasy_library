@@ -38,15 +38,15 @@ module ESPNNBAFantasy
       own_players = to_trade.map{|player| find_players(players, player)}
       other_players = to_receive.map{|player| find_players(other_team.players, player)}
       return "This trade included players not one of the specified teams" if (own_players.include?(nil)|| other_players.include?(nil))
-      {'Trading:' => own_players.map{|p| p.name}, 
-      'Receiving:' => other_players.map{|p| p.name}}.merge(new_team_stats(own_players, other_players))
+      {'Trading:' => own_players.map{|p| p.full_name}, 
+      'Receiving:' => other_players.map{|p| p.full_name}}.merge(new_team_stats(own_players, other_players))
       
     end
 
     private
 
     def roster_names
-      players.map(&:name)
+      players.map(&:full_name)
     end
 
     def stat_differences(old, new)

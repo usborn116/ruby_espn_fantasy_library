@@ -3,7 +3,7 @@
 module PlayerFinder
 
   def find_players(arr, matcher)
-    arr.select{|p| p.name.downcase == matcher.downcase}.first
+    arr.select{|p| p.full_name.downcase == matcher.downcase}.first
   end
   
 end

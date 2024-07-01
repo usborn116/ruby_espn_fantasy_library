@@ -9,18 +9,20 @@ module ESPNNBAFantasy
 
     include PlayerFinder
 
-    attr_accessor :teams, :stat_data
+    attr_accessor :teams, :stat_data, :league_id, :name, :current_start_year, :current_end_year
 
     #initializes the league
 
     def initialize(league_id, year, s2, sw)
-      @league_id = league_id
-
       @uri = "https://lm-api-reads.fantasy.espn.com/apis/v3/games/fba/seasons/#{year}/segments/0/leagues/#{league_id}?view=mRoster&view=mSettings&view=mTeam&view=modular&view=mNav"
       @cookies = {'espn_s2': "#{s2}", 'SWID': "#{sw}"}
       @data = JSON.parse(RestClient.get(@uri, {cookies: @cookies}))
       @teams = make_team_objects
       @stat_data = make_stat_data
+      @league_id = @data['id']
+      @name = @data['name']
+      @current_start_year = @data['seasonId']
+      @current_end_year = @current_start_year + 1
     end
 
     def to_s
@@ -36,7 +38,7 @@ module ESPNNBAFantasy
     #pull up a Player object based on their name and their team
 
     def findplayer(team_name, str)
-      team = teams.select{|t| t.name == team_name}.first
+      team = @teams.select{|t| t.name == team_name}.first
       return "No team named #{team_name}" unless team
 
       find_players(team.players, str) || "#{str} cannot be found in #{team_name}'s roster"

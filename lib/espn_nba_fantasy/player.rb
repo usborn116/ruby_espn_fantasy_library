@@ -6,16 +6,21 @@ module ESPNNBAFantasy
 
     include CalculateStats
 
-    attr_reader :name, :player_id, :position, :stats, :team
+    attr_reader :first_name, :last_name, :full_name, 
+                :player_id, :position, :stats, :team,
+                :slug
 
     #basic initialization with attributes
 
     def initialize(player, team)
-      @name = player['fullName']
+      @first_name = player['firstName']
+      @last_name = player['lastName']
+      @full_name = player['fullName']
       @player_id = player['id']
       @position = ESPNNBAFantasy::POSITION_MAP[player['defaultPositionId']-1]
       @stats = stat_card_maker(player)
       @team = team
+      @slug = @full_name.scan(/\w+|\s/).join.downcase.split(' ').join('-')
     end
 
     def to_s 
