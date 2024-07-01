@@ -62,7 +62,7 @@ module ESPNNBAFantasy
     end
 
     def roster_maker(obj)
-      obj['roster']['entries'].map {|e| Player.new(e['playerPoolEntry']['player'], self)}
+      obj['roster']['entries'].map {|e| ESPNNBAFantasy::Player.new(e['playerPoolEntry']['player'], self)}
     end
 
     def make_team_stats(ros)

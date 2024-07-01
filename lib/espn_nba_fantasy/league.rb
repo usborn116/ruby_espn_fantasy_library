@@ -45,7 +45,7 @@ module ESPNNBAFantasy
     private
 
     def make_team_objects
-      @data['teams'].map{|team| Team.new(team, self)}
+      @data['teams'].map{|team| ESPNNBAFantasy::Team.new(team, self)}
     end
 
     def make_stat_data
@@ -69,7 +69,7 @@ module ESPNNBAFantasy
     end
 
     def std_dev(mean, values)
-      sum = values.inject(0){|accum, i| accum +(i-mean)**2 }
+      sum = values.inject(0){|accum, i| accum + (i-mean)**2 }
       variance = sum/(values.length - 1).to_f
       Math.sqrt(variance)
     end

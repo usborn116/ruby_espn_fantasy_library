@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
     s.name        = "espn_nba_fantasy"
-    s.version     = "0.0.4.1"
+    s.version     = "0.0.4.2"
     s.summary     = "Get info from your ESPN NBA Fantasy League as JSON data"
     s.description = "A way to get your league, team, and player information from your ESPN NBA Fantasy League"
     s.authors     = ["Usborn Ocampo"]

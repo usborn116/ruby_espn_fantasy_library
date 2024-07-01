@@ -13,7 +13,7 @@ module ESPNNBAFantasy
     def initialize(player, team)
       @name = player['fullName']
       @player_id = player['id']
-      @position = POSITION_MAP[player['defaultPositionId']-1]
+      @position = ESPNNBAFantasy::POSITION_MAP[player['defaultPositionId']-1]
       @stats = stat_card_maker(player)
       @team = team
     end
@@ -26,7 +26,7 @@ module ESPNNBAFantasy
 
     def stat_card_maker(player)
       avgstats = player['stats'].first['averageStats']
-      statcard = avgstats ? avgstats.transform_keys!{ |k| STATS_MAP[k] }.slice(*STATS) : EMPTY_STATS
+      statcard = avgstats ? avgstats.transform_keys!{ |k| ESPNNBAFantasy::STATS_MAP[k] }.slice(*ESPNNBAFantasy::STATS) : ESPNNBAFantasy::EMPTY_STATS
       calculate_stats(statcard)
     end
 
