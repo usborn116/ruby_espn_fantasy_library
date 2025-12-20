@@ -6,9 +6,7 @@ sw = '{817F7C41-C9C5-43F7-BF7C-41C9C5F3F7EB}'
 
 describe ESPNNBAFantasy::League do
 
-  before do
-    @league = ESPNNBAFantasy::League.new(780758162, 2023, s2, sw)
-  end
+  before { @league = ESPNNBAFantasy::League.new(780758162, 2023, s2, sw) }
 
   describe "#initialize" do
     it "creates a league" do

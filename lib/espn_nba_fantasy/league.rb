@@ -15,13 +15,14 @@ module ESPNNBAFantasy
     #initializes the league
 
     def initialize(league_id, year, s2, sw)
-      @uri = "https://lm-api-reads.fantasy.espn.com/apis/v3/games/fba/seasons/#{year}/segments/0/leagues/#{league_id}?view=mRoster&view=mSettings&view=mTeam&view=modular&view=mNav"
-      @cookies = {'espn_s2': "#{s2}", 'SWID': "#{sw}"}
-      @data = JSON.parse(RestClient.get(@uri, {cookies: @cookies}))
+      @league_id = league_id
+      @year = year
+      @s2 = s2
+      @sw = sw
+      @data = get_league_data
       @teams = make_team_objects
       @users = make_user_objects
       @stat_data = make_stat_data
-      @league_id = @data['id']
       @name = @data['settings']['name']
       @current_start_year = @data['seasonId']
       @current_end_year = @current_start_year + 1
@@ -47,6 +48,21 @@ module ESPNNBAFantasy
     end
 
     private
+    
+    def get_league_data
+      response = RestClient.get(uri, {cookies:})
+      JSON.parse(response)
+    rescue StandardError => e
+      raise "League data fetch failed: #{e}"
+    end
+    
+    def uri
+      @uri ||= "https://lm-api-reads.fantasy.espn.com/apis/v3/games/fba/seasons/#{@year}/segments/0/leagues/#{@league_id}?view=mRoster&view=mSettings&view=mTeam&view=modular&view=mNav"
+    end
+    
+    def cookies
+      @cookies ||= {'espn_s2': "#{@s2}", 'SWID': "#{@sw}"}
+    end
 
     def make_team_objects
       @data['teams'].map{|team| ESPNNBAFantasy::Team.new(team, self)}
