@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'espn_nba_fantasy/constants'
 require 'espn_nba_fantasy/player'
 require 'espn_nba_fantasy/league'
