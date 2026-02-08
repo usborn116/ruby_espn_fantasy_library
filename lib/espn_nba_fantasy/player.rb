@@ -43,7 +43,8 @@ module ESPNNBAFantasy
     end
 
     def calculate_stats(s)
-      s['FGA'] = s['FGA'] + 0.0001
+      s = s.dup
+      s['FGA'] += 0.0001
       s['TO'] = s['TO'] + 0.00001
       s['FTA'] = s['FTA'] + 0.00001
       add_calculated_stats(s)
