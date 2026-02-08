@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rest-client'
 require 'json'
 require_relative 'constants'
@@ -7,12 +9,11 @@ require_relative 'user'
 
 module ESPNNBAFantasy
   class League
-
     include PlayerFinder
 
     attr_accessor :teams, :stat_data, :league_id, :name, :current_start_year, :current_end_year, :users
 
-    #initializes the league
+    # initializes the league
 
     def initialize(league_id, year, s2, sw)
       @league_id = league_id
@@ -32,44 +33,44 @@ module ESPNNBAFantasy
       "League #{@league_id}"
     end
 
-    #gives you an array of each team's name and id in the league
+    # gives you an array of each team's name and id in the league
 
     def team_list
-      @teams.map{|r| [r.name, r.team_id]}
+      @teams.map { |r| [r.name, r.team_id] }
     end
 
-    #pull up a Player object based on their name and their team
+    # pull up a Player object based on their name and their team
 
     def findplayer(team_name, str)
-      team = @teams.select{|t| t.name == team_name}.first
+      team = @teams.select { |t| t.name == team_name }.first
       return "No team named #{team_name}" unless team
 
       find_players(team.players, str) || "#{str} cannot be found in #{team_name}'s roster"
     end
 
     private
-    
+
     def get_league_data
-      response = RestClient.get(uri, {cookies:})
+      response = RestClient.get(uri, { cookies: })
       JSON.parse(response)
     rescue StandardError => e
       raise "League data fetch failed: #{e}"
     end
-    
+
     def uri
       @uri ||= "https://lm-api-reads.fantasy.espn.com/apis/v3/games/fba/seasons/#{@year}/segments/0/leagues/#{@league_id}?view=mRoster&view=mSettings&view=mTeam&view=modular&view=mNav"
     end
-    
+
     def cookies
-      @cookies ||= {'espn_s2': "#{@s2}", 'SWID': "#{@sw}"}
+      @cookies ||= { 'espn_s2': @s2.to_s, 'SWID': @sw.to_s }
     end
 
     def make_team_objects
-      @data['teams'].map{|team| ESPNNBAFantasy::Team.new(team, self)}
+      @data['teams'].map { |team| ESPNNBAFantasy::Team.new(team, self) }
     end
 
     def make_user_objects
-      @data['members'].map{|user| ESPNNBAFantasy::User.new(user, self)}
+      @data['members'].map { |user| ESPNNBAFantasy::User.new(user, self) }
     end
 
     def make_stat_data
@@ -85,7 +86,7 @@ module ESPNNBAFantasy
     def calculate_league_stats(s)
       calc = {}
       s.each do |stat, values|
-        avg = (values.sum/values.length).to_f
+        avg = (values.sum / values.length).to_f
         calc["#{stat} Average"] = avg
         calc["#{stat} Standard Deviation"] = std_dev(avg, values)
       end
@@ -93,10 +94,9 @@ module ESPNNBAFantasy
     end
 
     def std_dev(mean, values)
-      sum = values.inject(0){|accum, i| accum + (i-mean)**2 }
-      variance = sum/(values.length - 1).to_f
+      sum = values.inject(0) { |accum, i| accum + (i - mean)**2 }
+      variance = sum / (values.length - 1).to_f
       Math.sqrt(variance)
     end
-
   end
 end
