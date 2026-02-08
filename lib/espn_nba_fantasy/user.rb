@@ -3,7 +3,7 @@
 module ESPNNBAFantasy
   class User
     attr_accessor :display_name, :first_name, :last_name, :fantasy_id,
-                  :teams, :league, :add_team
+                  :teams, :league
 
     # basic initialization with the various attributes
 
