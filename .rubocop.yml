@@ -1,2 +1,5 @@
 Style/Documentation:
   Enabled: false
+
+AllCops:
+  TargetRubyVersion: 3.3
